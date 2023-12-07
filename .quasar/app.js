@@ -12,6 +12,15 @@
  **/
 
 
+  
+  import '@capacitor/core'
+    
+    // importing it so it can install itself (used by Quasar UI)
+    import { App as CapApp } from '@capacitor/app'
+    
+    
+  
+
 
 import { Quasar } from 'quasar'
 import { markRaw } from 'vue'
@@ -35,6 +44,8 @@ export default async function (createAppFn, quasarUserOptions) {
 
   app.use(Quasar, quasarUserOptions)
 
+  
+  app.config.globalProperties.$q.capacitor = window.Capacitor
   
 
   
