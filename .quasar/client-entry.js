@@ -44,10 +44,10 @@ import quasarUserOptions from './quasar-user-options.js'
 
 
 
-console.info('[Quasar] Running CAPACITOR.')
+console.info('[Quasar] Running SPA.')
 
 
-const publicPath = ``
+const publicPath = `/`
 
 async function start ({
   app,
@@ -79,7 +79,7 @@ async function start ({
     // continue if we didn't fail to resolve the url
     if (href !== null) {
       window.location.href = href
-      window.location.reload()
+      
     }
   }
 
@@ -154,7 +154,9 @@ createQuasarApp(createApp, quasarUserOptions)
       
       import('boot/i18n'),
       
-      import('boot/axios')
+      import('boot/axios'),
+      
+      import('boot/apollo')
       
     ]).then(bootFiles => {
       const boot = mapFn(bootFiles).filter(entry => typeof entry === 'function')

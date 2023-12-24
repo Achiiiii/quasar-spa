@@ -27,7 +27,7 @@ module.exports = configure(function (/* ctx */) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: ['i18n', 'axios'],
+    boot: ['i18n', 'axios', 'apollo'],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
     css: ['app.scss'],
@@ -62,7 +62,8 @@ module.exports = configure(function (/* ctx */) {
 
       // publicPath: '/',
       // analyze: true,
-      // env: {},
+      //'GRAPHQL_URI: https://dev.unknownddsm.work/'
+      env: { ...require('./quasar.env-conf.js') },
       // rawDefine: {}
       // ignorePublicFolder: true,
       // minify: false,
@@ -88,11 +89,21 @@ module.exports = configure(function (/* ctx */) {
           },
         ],
       ],
+      extendViteConf(viteConf) {
+        viteConf.define = {
+          'globalThis.process.env.NODE_ENV': JSON.stringify(
+            process.env.NODE_ENV
+          ),
+        };
+      },
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
     devServer: {
-      // https: true
+      https: true,
+      server: {
+        type: 'https',
+      },
       open: true, // opens browser window automatically
     },
 

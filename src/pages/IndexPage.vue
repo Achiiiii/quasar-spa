@@ -10,6 +10,20 @@
         label="Go"
         @click="send"
       />
+      <q-btn
+        color="blue"
+        icon="mail"
+        icon-right="send"
+        label="getUser"
+        @click="query"
+      />
+      <q-btn
+        color="blue"
+        icon="mail"
+        icon-right="send"
+        label="pushDocs"
+        @click="mutation"
+      />
     </div>
     <example-component
       title="Example component"
@@ -25,6 +39,16 @@ import { Todo, Meta } from 'components/models';
 import ExampleComponent from 'components/ExampleComponent.vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { apolloClient } from '../boot/apollo';
+import { getUser } from '../apollo/helper';
+import {
+  useQuery,
+  provideApolloClient,
+  useMutation,
+} from '@vue/apollo-composable';
+import gql from 'graphql-tag';
+
+provideApolloClient(apolloClient);
 
 const router = useRouter();
 
@@ -64,5 +88,40 @@ const send = () => {
       color: hex.value,
     },
   });
+};
+
+const query = async () => {
+  const result = await useQuery<getUser>(gql`
+    query User {
+      user(userName: "user2") {
+        docs {
+          name
+          uuid
+          userUuid
+          createdTimestamp
+        }
+        uuid
+        name
+        nick
+      }
+    }
+  `);
+  console.log(result.result.value?.user.docs);
+  console.log(process.env);
+};
+
+const mutation = async () => {
+  const { mutate: addDoc } = useMutation(gql`
+    mutation Mutation($userName: String!, $docName: String!) {
+      addDoc(userName: $userName, docName: $docName) {
+        name
+        uuid
+        userUuid
+        createdTimestamp
+      }
+    }
+  `);
+
+  await addDoc({ userName: 'user2', docName: 'doc888' });
 };
 </script>
