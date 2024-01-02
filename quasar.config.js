@@ -63,14 +63,13 @@ module.exports = configure(function (/* ctx */) {
       // publicPath: '/',
       // analyze: true,
       //'GRAPHQL_URI: https://dev.unknownddsm.work/'
-      env: { ...require('./quasar.env-conf.js') },
+      // env: {},
       // rawDefine: {}
       // ignorePublicFolder: true,
       // minify: false,
       // polyfillModulePreload: true,
       // distDir
 
-      // extendViteConf (viteConf) {},
       // viteVuePluginOptions: {},
 
       vitePlugins: [
